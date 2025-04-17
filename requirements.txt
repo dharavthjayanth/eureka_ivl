@@ -1,0 +1,7 @@
+flask
+openai==0.28
+pandas==1.5.3
+numpy==1.23
+openpyxl
+pandasai
+azure-storage-blob
