@@ -79,4 +79,6 @@ jobs:
           app-name: '12eureka'
           slot-name: 'Production'
           package: '${{ github.workspace }}/release.zip'
+          -oryx-build: false
+          scm-do-build-during-deployment: false
           
