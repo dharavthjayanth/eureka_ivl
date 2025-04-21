@@ -3,15 +3,15 @@ name: Build and deploy Python app to Azure Web App - 12eureka
 on:
   push:
     branches:
-      - main
+      - Production
   workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write    # Needed for Azure OIDC login
-      contents: read     # Needed for actions/checkout
+      contents: read      # Required for actions/checkout
+      id-token: write     # Required for Azure login
 
     steps:
       - name: Checkout code
@@ -22,7 +22,7 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install dependencies (optional for local testing)
+      - name: Install dependencies
         run: |
           python -m venv venv
           source venv/bin/activate
@@ -31,13 +31,12 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: 106790bc-16bc-4e3a-912e-446e51bb5ad0  # Your App Registration Client ID
-          tenant-id: 64f77dc5-3c66-462b-a765-7e07b045624a  # Your Azure Tenant ID
-          subscription-id: 22d4c835-2db5-4ed3-a88e-f62941aec87c  # Your Subscription ID
+          client-id: 106790bc-16bc-4e3a-912e-446e51bb5ad0      # Replace with your App Registration client ID
+          tenant-id: 64f77dc5-3c66-462b-a765-7e07b045624a      # Replace with your Azure Tenant ID
+          subscription-id: 22d4c835-2db5-4ed3-a88e-f62941aec87c  # Replace with your Azure Subscription ID
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
-        id: deploy-to-webapp
         with:
-          app-name: '12eureka'
+          app-name: '12eureka'        # Replace with your App Service Name
           slot-name: 'Production'
