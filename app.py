@@ -4,7 +4,7 @@ import os
 import openai
 from pandasai import SmartDataframe
 from pandasai.llm.openai import OpenAI as PandasOpenAI
-from waitress import serve
+
 from dotenv import load_dotenv
 
 # ✅ Load environment variables
@@ -301,11 +301,8 @@ def process_query():
     except Exception as e:
         return jsonify({"response": f"❌ Error processing query: {e}"}), 500
 
-@app.before_request
-def before_request_func():
-    if request.headers.get('X-Forwarded-Proto') == 'https':
-        request.environ['wsgi.url_scheme'] = 'https'
+
 
 # ✅ Start server with Waitress
 if __name__ == "__main__":
-    serve(app, host="0.0.0.0", port=5000)
+    app, host="0.0.0.0", port=5000
